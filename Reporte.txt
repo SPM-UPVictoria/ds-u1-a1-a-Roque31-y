@@ -1,0 +1,61 @@
+
+Estrategia de pruebas
+---------------------
+
+Objetivo
+--------
+Verificar que la aplicación calcule correctamente los promedios por alumno y por materia, detecte la calificación máxima y mínima, y maneje correctamente la entrada del usuario (valores numéricos y límites razonables).
+
+Qué se buscó probar
+- Cálculo correcto de promedios por alumno (promedio de sus materias).
+- Cálculo correcto de promedios por materia (promedio entre alumnos).
+- Búsqueda correcta del valor máximo y mínimo dentro de la matriz de calificaciones.
+- Manejo de entrada: aceptación de valores numéricos, comportamiento ante valores fuera de rango o entradas no numéricas (comportamiento definido o validación mínima).
+- Casos límite: todos los valores iguales, valores extremos (0, 100 si aplicable), y matrices pequeñas/variaciones en tamaño (si se modifican los parámetros de plantilla).
+
+Casos de prueba (manuales)
+--------------------------
+1) Caso básico — números enteros sencillos
+	- Entrada: llenar la matriz 5x4 con los números:
+	  alumno1: 10, 10, 10, 10
+	  alumno2: 8, 8, 8, 8
+	  alumno3: 6, 6, 6, 6
+	  alumno4: 4, 4, 4, 4
+	  alumno5: 2, 2, 2, 2
+	- Esperado:
+	  - Promedio alumno1 = 10, alumno2 = 8, alumno3 = 6, alumno4 = 4, alumno5 = 2
+	  - Promedio materia j = promedio de los valores en la columna j (igual a los promedios por alumno si columnas iguales)
+	  - Máximo = 10, Mínimo = 2
+
+2) Caso todos iguales
+	- Entrada: todos los valores = 7.5
+	- Esperado: todos los promedios = 7.5, max = min = 7.5
+
+3) Caso con valores extremos
+	- Entrada: incluir 0 y 100 (o el rango que aplique en tu contexto)
+	- Esperado: max = 100, min = 0; promedios calculados correctamente
+
+4) Datos no numéricos / entrada inválida (prueba de robustez)
+	- Acción: introducir una letra o texto cuando se solicita una calificación.
+	- Comportamiento aceptable: el programa debe detectar fallo de entrada (std::cin falla) y solicitar reingreso o terminar con mensaje claro. Si no hay manejo explícito, documentar la limitación.
+
+5) Casos de plantilla / tamaño diferente
+	- Si se cambia la plantilla GradeBook<T, N, M>, probar con tamaños distintos (por ejemplo 1x1, 2x3) para verificar que los bucles usan los parámetros de plantilla y no constantes mágicas.
+
+Procedimiento de prueba
+----------------------
+- Ejecutar el binario `practica1/build/main`.
+- Seguir las instrucciones en pantalla para introducir calificaciones por alumno y materia.
+- Anotar resultados y compararlos con los valores esperados indicados en los casos de prueba.
+
+Criterios de aceptación
+-----------------------
+- Cálculos aritméticos (promedios, máximo, mínimo) coinciden con los calculados manualmente para los datos de prueba.
+- El programa no debe producir comportamiento indefinido (crashes) con entradas válidas.
+- Para entradas inválidas, el programa debe manejar el error o al menos terminar con un mensaje de error claro. Si no se implementó validación, documentar la limitación en el reporte.
+
+Observaciones y limitaciones
+---------------------------
+- Actualmente la implementación original usaba constantes mágicas (por ejemplo 5 y 4) — es preferible usar los parámetros de plantilla para permitir pruebas con tamaños distintos. Asegúrate de que `gradebook.h` use los parámetros de plantilla para los límites de bucle.
+- Las pruebas descritas son manuales. Para mayor confianza, se puede implementar una batería de pruebas automatizadas (por ejemplo, un pequeño test runner que cargue matrices predefinidas y verifique salidas). Esto se puede añadir como siguiente tarea.
+
